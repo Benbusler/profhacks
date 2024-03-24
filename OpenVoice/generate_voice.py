@@ -1,3 +1,14 @@
+#
+#       This code has been made for the 2024 rowan Profhacks hackathon
+#       Authors: Benjamin Busler & Jimmy Sunbury
+#       Special Thanks: Will Busler
+#       With company: Reese Englkey <3
+#       
+#
+#
+#
+#
+
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -17,7 +28,9 @@ import speech_recognition as sr
 import pyttsx3
 import keyboard
 from mysecrets import secrets
-
+import serial.tools.list_ports
+import serial
+import time
 
 
 from openai import OpenAI
@@ -84,10 +97,28 @@ def toSpeech(text: str):
         tgt_se=target_se, 
         output_path=save_path,
         message=encode_message)
-    playsound(r'C:\Users\benbu\workspace_v12\profhacks\OpenVoice\outputs\output_en_default.wav')
+    
+    sound_path = r'C:\Users\benbu\workspace_v12\profhacks\OpenVoice\outputs\output_en_default.wav'
+    sendInfo("1")
+    playsound(sound_path)
+    sendInfo("0")
 
+def sendInfo(pos:str,): #o, open c close, s status
+    print("sending: " + pos)
+    ardConnect.write(pos.encode())
+    time.sleep(1)
+    # print(ardConnect.readline())
 
 # Loop for recording
+
+ports = list(serial.tools.list_ports.comports())
+print(ports)
+
+for p in ports:
+    print(p.device)
+    ardConnect = serial.Serial(port = p.device, baudrate = 115200, timeout=.25)
+    print("Making ESP Port")
+
 while True:
     wait_for_spacebar()
     try:
@@ -103,6 +134,9 @@ while True:
             text = r.recognize_google(audio)
             text = text.lower()
             print("You said:", text)
+            # if(text.lower().contains("do you see")):
+            #     break
+
             #speak_text(text)
 
             # user_input = input("You: ")
@@ -119,4 +153,41 @@ while True:
         print("Unknown error occurred")
 
 
+
+
+
+
+
+
+#from RelaySerial import RelaySerial
+
+
+i = 0
+
+
+
+
+
+
+
+
+
+if(ports):
+    while True:
+        test = input("value between 110 & 430: ")
+        sendInfo(test)
+        # if(test == "A"):
+        #     sendInfo("A")
+        # elif(test == "B"):
+        #     sendInfo("B")
+        # elif(test == "C"):
+        #     sendInfo("C")
+        # else:
+        #     print("Enter a test character")
+           
+  
     
+
+
+
+     
