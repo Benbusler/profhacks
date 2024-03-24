@@ -3,13 +3,13 @@ warnings.filterwarnings("ignore")
 
 
 import os
-os.chdir('OpenVoice/openvoice')
+os.chdir('openvoice')
 
 import torch
 import time
 import numpy
-from OpenVoice.openvoice import se_extractor
-from OpenVoice.openvoice.api import BaseSpeakerTTS, ToneColorConverter
+from openvoice import se_extractor
+from openvoice.api import BaseSpeakerTTS, ToneColorConverter
 import serial
 #import serial.tools.list_ports
 from playsound import playsound
